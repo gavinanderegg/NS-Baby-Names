@@ -7,7 +7,6 @@
 build_*/
 build-*/
 *-build/
-*.Rproj
 *.Rbuildignore
 .Rbuildignore
 string.Rproj
