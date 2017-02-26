@@ -4,6 +4,7 @@
 
 library(shiny)
 library(readr)
+library(dplyr)
 
 
 babynames <- read_csv(paste0(getwd(), "/NS_Top_Twenty_Baby_Names_-_1920-2016.csv"), col_types = cols(
@@ -11,9 +12,10 @@ babynames <- read_csv(paste0(getwd(), "/NS_Top_Twenty_Baby_Names_-_1920-2016.csv
   year = col_datetime(format = "%m/%d/%Y %H:%M:%S %p"),
   count = col_integer()))
 
+babynames$year <- format(babynames$year, '%Y')
 
 shinyServer(function(input, output) {
-  years <- format(babynames[['year']],'%Y')
+  years <- babynames$year
   firstYear <- as.numeric(years[1])
   lastYear <- as.numeric(years[length(years)])
   
@@ -25,14 +27,11 @@ shinyServer(function(input, output) {
       value = firstYear)
   })
   
-  browser()
-  
-  yearPlot <- reactive({
-    currentYear <- input$year
+  output$distPlot <- reactive({
+    output$currentYear <- reactive(input$year)
     
-  })
-  
-  output$distPlot <- renderPlot({
-    plot(babynames[['count']], format(babynames[['year']],'%Y'))
+    output$distPlot <- renderPlot({
+      plot(babynames$count, years)
+    })
   })
 })
