@@ -7,6 +7,7 @@ shinyUI(fluidPage(
     sidebarPanel(
       span("Current selected date"),
       verbatimTextOutput("currentYear"),
+      uiOutput("genderSelect"),
       uiOutput("yearSlider")
     ),
     mainPanel(

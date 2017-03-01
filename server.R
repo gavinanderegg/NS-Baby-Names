@@ -5,6 +5,7 @@
 library(shiny)
 library(readr)
 library(dplyr)
+library(ggplot2)
 
 
 babynames <- read_csv(paste0(getwd(), "/NS_Top_Twenty_Baby_Names_-_1920-2016.csv"), col_types = cols(
@@ -19,6 +20,12 @@ shinyServer(function(input, output) {
   firstYear <- as.numeric(years[1])
   lastYear <- as.numeric(years[length(years)])
   
+  output$genderSelect <- renderUI({
+    selectInput("gender",
+      "Gender:",
+      c("F", "M"))
+  })
+  
   output$yearSlider <- renderUI({
     sliderInput("year",
       "Year:",
@@ -27,11 +34,24 @@ shinyServer(function(input, output) {
       value = firstYear)
   })
   
-  output$distPlot <- reactive({
+  output$distPlot <- renderPlot({
     output$currentYear <- reactive(input$year)
+  
+    inputYear <- input$year
+    if (is.null(input$year)) {
+      inputYear <- "1920"
+    }
     
-    output$distPlot <- renderPlot({
-      plot(babynames$count, years)
-    })
+    inputGender <- input$gender
+    if (is.null(input$gender)) {
+      inputGender <- "F"
+    }
+    
+    outputVals <- subset(babynames, year == inputYear & sex == inputGender)
+  
+    # browser()
+    
+    p <- ggplot(outputVals, aes(`first name`, count))
+    print(p)
   })
 })
