@@ -51,7 +51,7 @@ shinyServer(function(input, output) {
   
     # browser()
     
-    p <- ggplot(outputVals, aes(`first name`, count))
+    p <- ggplot(aes(x=`first name`, y=count), data=outputVals) + geom_bar(stat="identity")
     print(p)
   })
 })
