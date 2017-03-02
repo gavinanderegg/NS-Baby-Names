@@ -6,6 +6,7 @@ library(shiny)
 library(readr)
 library(dplyr)
 library(ggplot2)
+library(stringr)
 
 
 babynames <- read_csv(paste0(getwd(), "/NS_Top_Twenty_Baby_Names_-_1920-2016.csv"), col_types = cols(
@@ -14,6 +15,7 @@ babynames <- read_csv(paste0(getwd(), "/NS_Top_Twenty_Baby_Names_-_1920-2016.csv
   count = col_integer()))
 
 babynames$year <- format(babynames$year, '%Y')
+babynames$`first name` <- str_to_title(babynames$`first name`)
 
 shinyServer(function(input, output) {
   years <- babynames$year
@@ -34,9 +36,7 @@ shinyServer(function(input, output) {
       value = firstYear)
   })
   
-  output$distPlot <- renderPlot({
-    output$currentYear <- reactive(input$year)
-  
+  output$distPlot <- renderPlot({a
     inputYear <- input$year
     if (is.null(input$year)) {
       inputYear <- "1920"
@@ -48,10 +48,12 @@ shinyServer(function(input, output) {
     }
     
     outputVals <- subset(babynames, year == inputYear & sex == inputGender)
-  
+    outputVals$`first name` <- factor(outputVals$`first name`, levels=unique(as.character(outputVals$`first name`)))
+    
     # browser()
     
-    p <- ggplot(aes(x=`first name`, y=count), data=outputVals) + geom_bar(stat="identity")
+    p <- ggplot(aes(x=`first name`, y=count), data=outputVals) + geom_bar(stat="identity") + coord_flip() + 
+scale_x_discrete(limits = rev(levels(outputVals$`first name`)))
     print(p)
   })
 })
