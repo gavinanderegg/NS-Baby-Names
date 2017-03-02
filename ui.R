@@ -12,7 +12,15 @@ shinyUI(fluidPage(
       uiOutput("yearSlider")
     ),
     mainPanel(
-       plotOutput("distPlot")
+       plotOutput("nameYearPlot")
+    )
+  ),
+  sidebarLayout(
+    sidebarPanel(
+      uiOutput("nameSelect")
+    ),
+    mainPanel(
+      plotOutput("nameOverTimePlot")
     )
   )
 ))
