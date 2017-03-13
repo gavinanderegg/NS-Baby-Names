@@ -3,10 +3,11 @@ library(shiny)
 
 shinyUI(fluidPage(
   tags$head(
+    includeScript("www/ga.js"),
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
   titlePanel("Nova Scotia Baby Names by Year"),
-  p(htmlOutput("description")),
+  htmlOutput("description"),
   sidebarLayout(
     sidebarPanel(
       uiOutput("genderSelect"),
