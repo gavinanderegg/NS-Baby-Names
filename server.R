@@ -36,6 +36,10 @@ shinyServer(function(input, output) {
   
   
   
+  output$description <- renderText('A tool to explore the <a href="https://data.novascotia.ca/Population-and-Demographics/NS-Top-Twenty-Baby-Names-1920-2016/emf8-vmuy">"NS Top Twenty Baby Names - 1920-2016" dataset</a> — part of <a href="https://data.novascotia.ca/">the Nova Scotia Government\'s Open Data Portal</a>.<br><br>To use the top chart, first select a gender, and then a year to see the top names for that gender in that year. The bottom chart is indendant of first, and shows a graph of when that name appeared in the year data, and how many babies with that name were born in those years.<br><br>Built by <a href="http://anderegg.ca/about/">Gavin Anderegg</a> using <a href="https://www.r-project.org/">R</a> and <a href="https://shiny.rstudio.com/">Shiny</a>.<br><br>')
+  
+  
+  
   output$nameSelect <- renderUI({
     selectInput("name",
       "Name:",

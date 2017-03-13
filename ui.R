@@ -5,7 +5,8 @@ shinyUI(fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
-  titlePanel("Baby Names by Year"),
+  titlePanel("Nova Scotia Baby Names by Year"),
+  p(htmlOutput("description")),
   sidebarLayout(
     sidebarPanel(
       uiOutput("genderSelect"),
